@@ -1,4 +1,123 @@
-// ===============================
+let nota = 0;
+
+
+const estrelas = document.querySelectorAll("#estrelas span");
+
+
+estrelas.forEach(estrela=>{
+
+estrela.addEventListener("click",()=>{
+
+nota = estrela.dataset.star;
+
+
+estrelas.forEach(e=>{
+
+e.classList.remove("ativa");
+
+});
+
+
+for(let i=0;i<nota;i++){
+
+estrelas[i].classList.add("ativa");
+
+}
+
+});
+
+});
+
+
+
+function enviarFeedback(){
+
+
+let nome=document.getElementById("nome").value;
+
+let mensagem=document.getElementById("mensagem").value;
+
+
+if(nome==="" || mensagem==="" || nota==0){
+
+alert("Preencha todos os campos e escolha uma avaliação!");
+
+return;
+
+}
+
+
+let feedback={
+
+nome:nome,
+mensagem:mensagem,
+nota:nota
+
+};
+
+
+let lista=JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+
+lista.push(feedback);
+
+
+localStorage.setItem("feedbacks",JSON.stringify(lista));
+
+
+mostrarFeedbacks();
+
+
+document.getElementById("nome").value="";
+document.getElementById("mensagem").value="";
+
+
+}
+
+
+
+function mostrarFeedbacks(){
+
+
+let area=document.getElementById("listaFeedbacks");
+
+
+area.innerHTML="";
+
+
+let lista=JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+
+lista.reverse().forEach(f=>{
+
+
+area.innerHTML += `
+
+<div class="feedback-card">
+
+<h3>${f.nome}</h3>
+
+<div class="nota">
+
+${"★".repeat(f.nota)}
+
+</div>
+
+
+<p>${f.mensagem}</p>
+
+
+</div>
+
+`;
+
+});
+
+
+}
+
+
+mostrarFeedbacks();// ===============================
 // ANIMAÇÕES DO SITE BRUNA SOUZA
 // ===============================
 
